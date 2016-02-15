@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Opgave1-4.c" />
+    <ClCompile Include="Opgave5-1.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E6029635-9EDA-4A94-B2AF-3A329B8F9D50}</ProjectGuid>
