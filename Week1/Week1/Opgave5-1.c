@@ -5,22 +5,22 @@
 int getch(void);
 void ungetch(int);
 
-int main(void)
-{
-	int n, s, array[SIZE], getint(int *);
-
-	for (n = 0; n<SIZE && getint(&array[n]) != EOF; n++) {
-		/* For debug purposes */
-		printf("storing in n = %d, getint %d\n", n, array[n]);
-	}
-
-	printf("storing in n = %d, getint %d\n", n, array[n]);
-
-	for (s = 0; s <= n; s++)
-		printf("%d", array[s]);
-
-	return 0;
-}
+//int main(void)
+//{
+//	int n, s, array[SIZE], getint(int *);
+//
+//	for (n = 0; n<SIZE && getint(&array[n]) != EOF; n++) {
+//		/* For debug purposes */
+//		printf("storing in n = %d, getint %d\n", n, array[n]);
+//	}
+//
+//	printf("storing in n = %d, getint %d\n", n, array[n]);
+//
+//	for (s = 0; s <= n; s++)
+//		printf("%d", array[s]);
+//
+//	return 0;
+//}
 
 int getint(int *pn)
 {
@@ -51,20 +51,3 @@ int getint(int *pn)
 	return c;
 }
 
-#define BUFSIZE 100
-
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void)
-{
-	return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c)
-{
-	if (bufp >= BUFSIZE)
-		printf("ungetch: too many characters\n");
-	else
-		buf[bufp++] = c;
-}
