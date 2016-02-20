@@ -1,7 +1,10 @@
 #include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
 #ifndef LLIST_DEF
 #define LLIST_DEF
 
+static struct node *pHead = NULL;
 
 struct node
 {
@@ -9,9 +12,11 @@ struct node
 	struct node *next;
 };
 
-void init();
-int add(int data);
-void show();
+void init()
+{
+	pHead = NULL;
+
+}
 
 #endif // !LLIST_DEF
 
@@ -37,5 +42,16 @@ int add(int data)
 			pn->next = pHead;
 			pHead = pn;
 		}
+	}
+}
+
+void show()
+{
+	struct node *p = pHead;
+	int nr = 0;
+
+	for (; NULL != p->next; p = p->next)
+	{
+		printf("node nr: %d heeft data [%d]\n", nr++, p->data);
 	}
 }
