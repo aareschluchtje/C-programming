@@ -30,6 +30,8 @@
 
 # Debug files
 *.dSYM/
+*.sdf
 
 #Debug folder
 Debug/
+*.opendb
