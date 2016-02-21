@@ -55,3 +55,19 @@ void show()
 		printf("node nr: %d heeft data [%d]\n", nr++, p->data);
 	}
 }
+
+int remove(int index)
+{
+	struct node *p = pHead;
+	int nr = 0;
+	for (; NULL != p->next; p = p->next)
+	{
+		if (nr == index-1)
+		{
+			printf("Remove data : node nr: %d heeft data [%d]\n", index, p->next->data);
+			p->next = p->next->next;
+		}
+		nr++;
+	}
+	return 0;
+}

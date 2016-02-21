@@ -11,7 +11,8 @@ int main()
 	{
 		add(idx);
 	}
+	remove(3);
 	show();
-	getch();
+	getchar();
 	return 1;
 }
