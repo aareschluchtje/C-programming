@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Practice C", "Practice C\Practice C.vcxproj", "{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Linked List", "Practice C\Practice C.vcxproj", "{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}.Debug|x64.ActiveCfg = Debug|x64
 		{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}.Debug|x64.Build.0 = Debug|x64
+		{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}.Debug|x64.Deploy.0 = Debug|x64
 		{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}.Debug|x86.ActiveCfg = Debug|Win32
 		{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}.Debug|x86.Build.0 = Debug|Win32
 		{88A19D7C-0C83-4008-A8FE-AAD1BAA325BE}.Release|x64.ActiveCfg = Release|x64

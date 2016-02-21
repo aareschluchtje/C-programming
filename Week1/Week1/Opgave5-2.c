@@ -8,18 +8,18 @@ void ungetch(int);
 
 int getfloat(float *);
 
-int main(void)
-{
-	int n;
-	float array[SIZE];
-
-	for (n = 0; n<SIZE && getfloat(&array[n]) != EOF; n++)
-		;
-	for (; n >= 0; n--)
-		printf("%f", array[n]);
-
-	return 0;
-}
+//int main(void)
+//{
+//	int n;
+//	float array[SIZE];
+//
+//	for (n = 0; n<SIZE && getfloat(&array[n]) != EOF; n++)
+//		;
+//	for (; n >= 0; n--)
+//		printf("%f", array[n]);
+//
+//	return 0;
+//}
 
 int getfloat(float *pn)
 {
