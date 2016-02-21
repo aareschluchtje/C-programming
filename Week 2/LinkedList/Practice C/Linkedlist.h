@@ -10,5 +10,5 @@ struct node
 void init();
 int add(int data);
 void show();
-
+void Remove(int index);
 #endif
