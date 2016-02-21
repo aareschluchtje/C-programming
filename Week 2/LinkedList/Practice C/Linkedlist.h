@@ -11,4 +11,5 @@ void init();
 int add(int data);
 void show();
 int remove(int index);
+void clear();
 #endif

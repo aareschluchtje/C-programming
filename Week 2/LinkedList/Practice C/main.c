@@ -12,7 +12,7 @@ int main()
 		add(idx);
 	}
 	remove(3);
-
+	clear();
 	show();
 	getchar();
 	return 1;

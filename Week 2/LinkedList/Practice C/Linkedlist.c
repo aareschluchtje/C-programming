@@ -73,3 +73,14 @@ int remove(int index)
 	}
 	return data;
 }
+
+void clear()
+{
+	struct node *p = pHead;
+
+	for (; NULL != p->next; p = p->next)
+	{
+		p = NULL;
+		printf("verwijderd data \n");
+	}
+}
