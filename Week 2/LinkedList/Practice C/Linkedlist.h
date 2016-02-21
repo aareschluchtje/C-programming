@@ -14,4 +14,6 @@ int remove(int index);
 void clear();
 int nrItems();
 int excist(int data);
+void deepCopy();
+void showCopy();
 #endif

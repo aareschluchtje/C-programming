@@ -5,6 +5,7 @@
 #define LLIST_DEF
 
 static struct node *pHead = NULL;
+static struct node *pHeadCopy = NULL;
 
 struct node
 {
@@ -15,7 +16,6 @@ struct node
 void init()
 {
 	pHead = NULL;
-
 }
 
 #endif // !LLIST_DEF
@@ -50,7 +50,7 @@ void show()
 	struct node *p = pHead;
 	int nr = 0;
 
-	for (; NULL != p->next; p = p->next)
+	for (; NULL != p; p = p->next)
 	{
 		printf("node nr: %d heeft data [%d]\n", nr++, p->data);
 	}
@@ -108,4 +108,46 @@ int excist(int data)
 		}
 	}
 	return boolean;
+}
+
+void deepCopy()
+{
+	struct node *p = pHead;
+
+	for (; NULL != p; p = p->next)
+	{
+		struct node *pn = (struct node*)malloc(sizeof(struct node));
+
+		if (NULL == pn)
+		{
+			printf("Out of memory...");
+		}
+		else
+		{
+			if (NULL == pHeadCopy)
+			{
+				pn->data = p->data;
+				pn->next = NULL;
+				pHeadCopy = pn;
+			}
+			else
+			{
+				pn->data = p->data;
+				pn->next = pHeadCopy;
+				pHeadCopy = pn;
+				printf(pHeadCopy);
+			}
+		}
+	}
+}
+
+void showCopy()
+{
+	struct node *p = pHeadCopy;
+	int nr = 0;
+
+	for (; NULL != p; p = p->next)
+	{
+		printf("node nr: %d heeft data [%d]\n", nr++, p->data);
+	}
 }
