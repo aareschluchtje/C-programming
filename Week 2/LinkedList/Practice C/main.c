@@ -11,8 +11,10 @@ int main()
 	{
 		add(idx);
 	}
-	remove(3);
-	clear();
+	//remove(4);
+	//clear();
+	printf("Element in de list : %d \n", excist(4));
+	printf("Count linklist: %d \n", nrItems());
 	show();
 	getchar();
 	return 1;

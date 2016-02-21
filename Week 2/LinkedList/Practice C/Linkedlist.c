@@ -80,7 +80,32 @@ void clear()
 
 	for (; NULL != p->next; p = p->next)
 	{
-		p = NULL;
-		printf("verwijderd data \n");
+		p->data = NULL;
+		printf("verwijderd data %d \n",p->data);
 	}
+}
+
+int nrItems()
+{
+	struct node *p = pHead;
+	int nr = 0;
+	for (; NULL != p->next; p = p->next)
+	{
+		nr++;
+	}
+	return nr;
+}
+
+int excist(int data)
+{
+	struct node *p = pHead;
+	int boolean = 0;
+	for (; NULL != p->next; p = p->next)
+	{
+		if(p->data == data)
+		{
+			return boolean = 1;
+		}
+	}
+	return boolean;
 }

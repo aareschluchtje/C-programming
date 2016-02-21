@@ -12,4 +12,6 @@ int add(int data);
 void show();
 int remove(int index);
 void clear();
+int nrItems();
+int excist(int data);
 #endif
