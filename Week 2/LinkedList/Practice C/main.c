@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "Linkedlist.h"
 
-int main(void)
+int main()
 {
 	int idx;
 
