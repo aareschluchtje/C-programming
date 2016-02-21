@@ -45,24 +45,6 @@ int add(int data)
 	}
 }
 
-void Remove(int index)
-{
-	//struct node *p = (struct node*)malloc(sizeof(struct node));
-
-	struct node *current = pHead;
-	struct node *p = NULL;
-	int nr = 0;
-	for (; NULL != p->next; p = p->next)
-	{
-		nr++;
-		if(nr == index)
-		{
-			pHead = p;
-			printf("Remove data : node nr: %d heeft data [%d]\n",index, p->data);
-		}
-	}
-}
-
 void show()
 {
 	struct node *p = pHead;
@@ -78,14 +60,16 @@ int remove(int index)
 {
 	struct node *p = pHead;
 	int nr = 0;
+	int data = NULL;
 	for (; NULL != p->next; p = p->next)
 	{
 		if (nr == index-1)
 		{
+			data = p->next->data;
 			printf("Remove data : node nr: %d heeft data [%d]\n", index, p->next->data);
 			p->next = p->next->next;
 		}
 		nr++;
 	}
-	return 0;
+	return data;
 }
