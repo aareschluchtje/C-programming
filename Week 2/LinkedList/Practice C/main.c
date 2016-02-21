@@ -12,6 +12,6 @@ int main()
 		add(idx);
 	}
 	show();
-
+	getch();
 	return 1;
 }
