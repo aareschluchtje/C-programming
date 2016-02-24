@@ -217,7 +217,23 @@ static void LcdWaitBusy()
     cbi (LCD_RS_PORT, LCD_RS);
     cbi (LCD_RW_PORT, LCD_RW);              // we are going to write
 }
+//clears the Lcd screen
+void ClearLcd()
+{
+	LcdWriteByte(WRITE_COMMAND, 0x01);
+}
+
+void LcdArray(char *data, int size)
+{
+	int i;
+	
+	ClearLcd();
+	NutSleep(5);
+	for(i = 0; i < size; i = i + 1){
+		LcdChar(data[i]);
+	}
+}
 
 /* ---------- end of module ------------------------------------------------ */
-
+	
 /*@}*/

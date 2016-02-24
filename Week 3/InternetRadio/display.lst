@@ -1,4 +1,4 @@
-GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 1
+GAS LISTING C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s 			page 1
 
 
    1               		.file	"display.c"
@@ -58,7 +58,7 @@ GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 1
   55               	/* #NOAPP */
   56 0032 7298      		cbi 46-0x20,2
   57 0034 8A98      		cbi 49-0x20,2
-GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 2
+GAS LISTING C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s 			page 2
 
 
   58 0036 8AB1      		in r24,42-0x20
@@ -118,7 +118,7 @@ GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 1
  112 007e 682F      		mov r22,r24
  113 0080 83E0      		ldi r24,lo8(3)
  114 0082 0E94 0000 		call LcdWriteByte
-GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 3
+GAS LISTING C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s 			page 3
 
 
  115               	/* epilogue: frame size=0 */
@@ -126,74 +126,136 @@ GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 1
  117               	/* epilogue end (size=1) */
  118               	/* function LcdChar size 5 (4) */
  119               		.size	LcdChar, .-LcdChar
- 120               	.global	LcdLowLevelInit
- 121               		.type	LcdLowLevelInit, @function
- 122               	LcdLowLevelInit:
+ 120               	.global	ClearLcd
+ 121               		.type	ClearLcd, @function
+ 122               	ClearLcd:
  123               	/* prologue: frame size=0 */
- 124 0088 1F93      		push r17
- 125               	/* prologue end (size=1) */
- 126 008a 8CE8      		ldi r24,lo8(-116)
- 127 008c 0E94 0000 		call NutDelay
- 128 0090 10E0      		ldi r17,lo8(0)
- 129               	.L21:
- 130 0092 63E3      		ldi r22,lo8(51)
- 131 0094 82E0      		ldi r24,lo8(2)
- 132 0096 0E94 0000 		call LcdWriteNibble
- 133 009a 84E0      		ldi r24,lo8(4)
- 134 009c 0E94 0000 		call NutDelay
- 135 00a0 1F5F      		subi r17,lo8(-(1))
- 136 00a2 1330      		cpi r17,lo8(3)
- 137 00a4 01F4      		brne .L21
- 138 00a6 62E2      		ldi r22,lo8(34)
- 139 00a8 82E0      		ldi r24,lo8(2)
- 140 00aa 0E94 0000 		call LcdWriteNibble
- 141 00ae 81E0      		ldi r24,lo8(1)
- 142 00b0 0E94 0000 		call NutDelay
- 143 00b4 68E2      		ldi r22,lo8(40)
- 144 00b6 82E0      		ldi r24,lo8(2)
- 145 00b8 0E94 0000 		call LcdWriteByte
- 146 00bc 85E0      		ldi r24,lo8(5)
- 147 00be 0E94 0000 		call NutDelay
- 148 00c2 6CE0      		ldi r22,lo8(12)
- 149 00c4 82E0      		ldi r24,lo8(2)
- 150 00c6 0E94 0000 		call LcdWriteByte
- 151 00ca 85E0      		ldi r24,lo8(5)
- 152 00cc 0E94 0000 		call NutDelay
- 153 00d0 61E0      		ldi r22,lo8(1)
- 154 00d2 82E0      		ldi r24,lo8(2)
- 155 00d4 0E94 0000 		call LcdWriteByte
- 156 00d8 85E0      		ldi r24,lo8(5)
- 157 00da 0E94 0000 		call NutDelay
- 158 00de 66E0      		ldi r22,lo8(6)
- 159 00e0 82E0      		ldi r24,lo8(2)
- 160 00e2 0E94 0000 		call LcdWriteByte
- 161 00e6 60E8      		ldi r22,lo8(-128)
- 162 00e8 82E0      		ldi r24,lo8(2)
- 163 00ea 0E94 0000 		call LcdWriteByte
- 164               	/* epilogue: frame size=0 */
- 165 00ee 1F91      		pop r17
- 166 00f0 0895      		ret
- 167               	/* epilogue end (size=2) */
- 168               	/* function LcdLowLevelInit size 53 (50) */
- 169               		.size	LcdLowLevelInit, .-LcdLowLevelInit
- 170               	/* File "display.c": code  125 = 0x007d ( 115), prologues   3, epilogues   7 */
-GAS LISTING C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s 			page 4
+ 124               	/* prologue end (size=0) */
+ 125 0088 61E0      		ldi r22,lo8(1)
+ 126 008a 82E0      		ldi r24,lo8(2)
+ 127 008c 0E94 0000 		call LcdWriteByte
+ 128               	/* epilogue: frame size=0 */
+ 129 0090 0895      		ret
+ 130               	/* epilogue end (size=1) */
+ 131               	/* function ClearLcd size 5 (4) */
+ 132               		.size	ClearLcd, .-ClearLcd
+ 133               	.global	LcdArray
+ 134               		.type	LcdArray, @function
+ 135               	LcdArray:
+ 136               	/* prologue: frame size=0 */
+ 137 0092 EF92      		push r14
+ 138 0094 FF92      		push r15
+ 139 0096 0F93      		push r16
+ 140 0098 1F93      		push r17
+ 141 009a CF93      		push r28
+ 142 009c DF93      		push r29
+ 143               	/* prologue end (size=6) */
+ 144 009e 8C01      		movw r16,r24
+ 145 00a0 7B01      		movw r14,r22
+ 146 00a2 0E94 0000 		call ClearLcd
+ 147 00a6 65E0      		ldi r22,lo8(5)
+ 148 00a8 70E0      		ldi r23,hi8(5)
+ 149 00aa 80E0      		ldi r24,hlo8(5)
+ 150 00ac 90E0      		ldi r25,hhi8(5)
+ 151 00ae 0E94 0000 		call NutSleep
+ 152 00b2 C0E0      		ldi r28,lo8(0)
+ 153 00b4 D0E0      		ldi r29,hi8(0)
+ 154 00b6 00C0      		rjmp .L23
+ 155               	.L24:
+ 156 00b8 F801      		movw r30,r16
+ 157 00ba 8191      		ld r24,Z+
+ 158 00bc 8F01      		movw r16,r30
+ 159 00be 0E94 0000 		call LcdChar
+ 160 00c2 2196      		adiw r28,1
+ 161               	.L23:
+ 162 00c4 CE15      		cp r28,r14
+ 163 00c6 DF05      		cpc r29,r15
+ 164 00c8 04F0      		brlt .L24
+ 165               	/* epilogue: frame size=0 */
+ 166 00ca DF91      		pop r29
+ 167 00cc CF91      		pop r28
+ 168 00ce 1F91      		pop r17
+ 169 00d0 0F91      		pop r16
+ 170 00d2 FF90      		pop r15
+ 171 00d4 EF90      		pop r14
+GAS LISTING C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s 			page 4
+
+
+ 172 00d6 0895      		ret
+ 173               	/* epilogue end (size=7) */
+ 174               	/* function LcdArray size 35 (22) */
+ 175               		.size	LcdArray, .-LcdArray
+ 176               	.global	LcdLowLevelInit
+ 177               		.type	LcdLowLevelInit, @function
+ 178               	LcdLowLevelInit:
+ 179               	/* prologue: frame size=0 */
+ 180 00d8 1F93      		push r17
+ 181               	/* prologue end (size=1) */
+ 182 00da 8CE8      		ldi r24,lo8(-116)
+ 183 00dc 0E94 0000 		call NutDelay
+ 184 00e0 10E0      		ldi r17,lo8(0)
+ 185               	.L28:
+ 186 00e2 63E3      		ldi r22,lo8(51)
+ 187 00e4 82E0      		ldi r24,lo8(2)
+ 188 00e6 0E94 0000 		call LcdWriteNibble
+ 189 00ea 84E0      		ldi r24,lo8(4)
+ 190 00ec 0E94 0000 		call NutDelay
+ 191 00f0 1F5F      		subi r17,lo8(-(1))
+ 192 00f2 1330      		cpi r17,lo8(3)
+ 193 00f4 01F4      		brne .L28
+ 194 00f6 62E2      		ldi r22,lo8(34)
+ 195 00f8 82E0      		ldi r24,lo8(2)
+ 196 00fa 0E94 0000 		call LcdWriteNibble
+ 197 00fe 81E0      		ldi r24,lo8(1)
+ 198 0100 0E94 0000 		call NutDelay
+ 199 0104 68E2      		ldi r22,lo8(40)
+ 200 0106 82E0      		ldi r24,lo8(2)
+ 201 0108 0E94 0000 		call LcdWriteByte
+ 202 010c 85E0      		ldi r24,lo8(5)
+ 203 010e 0E94 0000 		call NutDelay
+ 204 0112 6CE0      		ldi r22,lo8(12)
+ 205 0114 82E0      		ldi r24,lo8(2)
+ 206 0116 0E94 0000 		call LcdWriteByte
+ 207 011a 85E0      		ldi r24,lo8(5)
+ 208 011c 0E94 0000 		call NutDelay
+ 209 0120 61E0      		ldi r22,lo8(1)
+ 210 0122 82E0      		ldi r24,lo8(2)
+ 211 0124 0E94 0000 		call LcdWriteByte
+ 212 0128 85E0      		ldi r24,lo8(5)
+ 213 012a 0E94 0000 		call NutDelay
+ 214 012e 66E0      		ldi r22,lo8(6)
+ 215 0130 82E0      		ldi r24,lo8(2)
+ 216 0132 0E94 0000 		call LcdWriteByte
+ 217 0136 60E8      		ldi r22,lo8(-128)
+ 218 0138 82E0      		ldi r24,lo8(2)
+ 219 013a 0E94 0000 		call LcdWriteByte
+ 220               	/* epilogue: frame size=0 */
+ 221 013e 1F91      		pop r17
+ 222 0140 0895      		ret
+ 223               	/* epilogue end (size=2) */
+ 224               	/* function LcdLowLevelInit size 53 (50) */
+ 225               		.size	LcdLowLevelInit, .-LcdLowLevelInit
+ 226               	/* File "source/display.c": code  165 = 0x00a5 ( 141), prologues   9, epilogues  15 */
+GAS LISTING C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 display.c
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:3      *ABS*:0000003f __SREG__
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:4      *ABS*:0000003e __SP_H__
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:5      *ABS*:0000003d __SP_L__
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:13     .text:00000000 LcdBackLight
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:32     .text:00000010 LcdWriteNibble
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:71     .text:00000046 LcdWriteByte
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:109    .text:0000007e LcdChar
-C:\Users\aares\AppData\Local\Temp/cc4SJjBp.s:122    .text:00000088 LcdLowLevelInit
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:3      *ABS*:0000003f __SREG__
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:4      *ABS*:0000003e __SP_H__
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:5      *ABS*:0000003d __SP_L__
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:13     .text:00000000 LcdBackLight
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:32     .text:00000010 LcdWriteNibble
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:71     .text:00000046 LcdWriteByte
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:109    .text:0000007e LcdChar
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:122    .text:00000088 ClearLcd
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:135    .text:00000092 LcdArray
+C:\Users\GUUSV_~1\AppData\Local\Temp/cchflQJb.s:178    .text:000000d8 LcdLowLevelInit
 
 UNDEFINED SYMBOLS
 __do_copy_data
 __do_clear_bss
+NutSleep
 NutDelay
