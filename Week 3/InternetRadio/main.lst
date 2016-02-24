@@ -1,0 +1,295 @@
+GAS LISTING C:\Users\aares\AppData\Local\Temp/ccpMeGan.s 			page 1
+
+
+   1               		.file	"main.c"
+   2               		.arch atmega2561
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	SysInitIO
+  12               		.type	SysInitIO, @function
+  13               	SysInitIO:
+  14               	/* prologue: frame size=0 */
+  15               	/* prologue end (size=0) */
+  16 0000 87EF      		ldi r24,lo8(-9)
+  17 0002 84B9      		out 36-0x20,r24
+  18 0004 8CE0      		ldi r24,lo8(12)
+  19 0006 8AB9      		out 42-0x20,r24
+  20 0008 8BB1      		in r24,43-0x20
+  21 000a 8C70      		andi r24,lo8(12)
+  22 000c 836F      		ori r24,lo8(-13)
+  23 000e 8BB9      		out 43-0x20,r24
+  24 0010 8EE8      		ldi r24,lo8(-114)
+  25 0012 8DB9      		out 45-0x20,r24
+  26 0014 8EB1      		in r24,46-0x20
+  27 0016 8E78      		andi r24,lo8(-114)
+  28 0018 8160      		ori r24,lo8(1)
+  29 001a 8EB9      		out 46-0x20,r24
+  30 001c 85B7      		in r24,85-0x20
+  31 001e 8068      		ori r24,lo8(-128)
+  32 0020 85BF      		out 85-0x20,r24
+  33 0022 85B7      		in r24,85-0x20
+  34 0024 8068      		ori r24,lo8(-128)
+  35 0026 85BF      		out 85-0x20,r24
+  36 0028 8EE0      		ldi r24,lo8(14)
+  37 002a 80BB      		out 48-0x20,r24
+  38 002c 81B3      		in r24,49-0x20
+  39 002e 8E70      		andi r24,lo8(14)
+  40 0030 816F      		ori r24,lo8(-15)
+  41 0032 81BB      		out 49-0x20,r24
+  42 0034 88E1      		ldi r24,lo8(24)
+  43 0036 83BB      		out 51-0x20,r24
+  44               	/* epilogue: frame size=0 */
+  45 0038 0895      		ret
+  46               	/* epilogue end (size=1) */
+  47               	/* function SysInitIO size 29 (28) */
+  48               		.size	SysInitIO, .-SysInitIO
+  49               		.data
+  50               	.LC0:
+  51 0000 5241 4449 		.string	"RADIO TEST"
+  51      4F20 5445 
+  51      5354 00
+  52               		.text
+  53               	.global	NutAppMain
+  54               		.type	NutAppMain, @function
+  55               	NutAppMain:
+GAS LISTING C:\Users\aares\AppData\Local\Temp/ccpMeGan.s 			page 2
+
+
+  56               	/* prologue: frame size=1018 */
+  57 003a 0F93      		push r16
+  58 003c 1F93      		push r17
+  59 003e CF93      		push r28
+  60 0040 DF93      		push r29
+  61 0042 CDB7      		in r28,__SP_L__
+  62 0044 DEB7      		in r29,__SP_H__
+  63 0046 CA5F      		subi r28,lo8(1018)
+  64 0048 D340      		sbci r29,hi8(1018)
+  65 004a 0FB6      		in __tmp_reg__,__SREG__
+  66 004c F894      		cli
+  67 004e DEBF      		out __SP_H__,r29
+  68 0050 0FBE      		out __SREG__,__tmp_reg__
+  69 0052 CDBF      		out __SP_L__,r28
+  70               	/* prologue end (size=13) */
+  71 0054 0E94 0000 		call WatchDogDisable
+  72 0058 84E6      		ldi r24,lo8(100)
+  73 005a 0E94 0000 		call NutDelay
+  74 005e 0E94 0000 		call SysInitIO
+  75 0062 0E94 0000 		call SPIinit
+  76 0066 0E94 0000 		call LedInit
+  77 006a 0E94 0000 		call LcdLowLevelInit
+  78 006e 0E94 0000 		call Uart0DriverInit
+  79 0072 0E94 0000 		call Uart0DriverStart
+  80 0076 0E94 0000 		call LogInit
+  81 007a 80E0      		ldi r24,lo8(__c.2550)
+  82 007c 90E0      		ldi r25,hi8(__c.2550)
+  83 007e 9F93      		push r25
+  84 0080 8F93      		push r24
+  85 0082 16EC      		ldi r17,lo8(-58)
+  86 0084 1F93      		push r17
+  87 0086 0E94 0000 		call LogMsg_P
+  88 008a 0E94 0000 		call CardInit
+  89 008e 0E94 0000 		call X12Init
+  90 0092 CE01      		movw r24,r28
+  91 0094 0196      		adiw r24,1
+  92 0096 0E94 0000 		call X12RtcGetClock
+  93 009a 0F90      		pop __tmp_reg__
+  94 009c 0F90      		pop __tmp_reg__
+  95 009e 0F90      	 	pop __tmp_reg__
+  96 00a0 892B      		or r24,r25
+  97 00a2 01F4      		brne .L4
+  98 00a4 8981      		ldd r24,Y+1
+  99 00a6 9A81      		ldd r25,Y+2
+ 100 00a8 9F93      		push r25
+ 101 00aa 8F93      		push r24
+ 102 00ac 8B81      		ldd r24,Y+3
+ 103 00ae 9C81      		ldd r25,Y+4
+ 104 00b0 9F93      		push r25
+ 105 00b2 8F93      		push r24
+ 106 00b4 8D81      		ldd r24,Y+5
+ 107 00b6 9E81      		ldd r25,Y+6
+ 108 00b8 9F93      		push r25
+ 109 00ba 8F93      		push r24
+ 110 00bc 80E0      		ldi r24,lo8(__c.2552)
+ 111 00be 90E0      		ldi r25,hi8(__c.2552)
+ 112 00c0 9F93      		push r25
+GAS LISTING C:\Users\aares\AppData\Local\Temp/ccpMeGan.s 			page 3
+
+
+ 113 00c2 8F93      		push r24
+ 114 00c4 1F93      		push r17
+ 115 00c6 0E94 0000 		call LogMsg_P
+ 116 00ca 8DB7      		in r24,__SP_L__
+ 117 00cc 9EB7      		in r25,__SP_H__
+ 118 00ce 0996      		adiw r24,9
+ 119 00d0 0FB6      		in __tmp_reg__,__SREG__
+ 120 00d2 F894      		cli
+ 121 00d4 9EBF      		out __SP_H__,r25
+ 122 00d6 0FBE      		out __SREG__,__tmp_reg__
+ 123 00d8 8DBF      		out __SP_L__,r24
+ 124               	.L4:
+ 125 00da 0E94 0000 		call At45dbInit
+ 126 00de 0E94 0000 		call RcInit
+ 127 00e2 0E94 0000 		call KbInit
+ 128 00e6 40E0      		ldi r20,lo8(0)
+ 129 00e8 50E0      		ldi r21,hi8(0)
+ 130 00ea 60E0      		ldi r22,lo8(gs(SysMainBeatInterrupt))
+ 131 00ec 70E0      		ldi r23,hi8(gs(SysMainBeatInterrupt))
+ 132 00ee 80E0      		ldi r24,lo8(sig_OVERFLOW0)
+ 133 00f0 90E0      		ldi r25,hi8(sig_OVERFLOW0)
+ 134 00f2 0E94 0000 		call NutRegisterIrqHandler
+ 135 00f6 892B      		or r24,r25
+ 136 00f8 01F4      		brne .L6
+ 137 00fa 85B5      		in r24,69-0x20
+ 138 00fc 8460      		ori r24,lo8(4)
+ 139 00fe 85BD      		out 69-0x20,r24
+ 140 0100 A89A      		sbi 53-0x20,0
+ 141 0102 8091 6E00 		lds r24,110
+ 142 0106 8160      		ori r24,lo8(1)
+ 143 0108 8093 6E00 		sts 110,r24
+ 144               	.L6:
+ 145 010c 81E0      		ldi r24,lo8(1)
+ 146 010e 0E94 0000 		call NutThreadSetPriority
+ 147               	/* #APP */
+ 148 0112 7894      		sei
+ 149               	/* #NOAPP */
+ 150 0114 81E0      		ldi r24,lo8(1)
+ 151 0116 0E94 0000 		call LedControl
+ 152 011a 80E0      		ldi r24,lo8(0)
+ 153 011c 0E94 0000 		call LcdBackLight
+ 154 0120 60E0      		ldi r22,lo8(.LC0)
+ 155 0122 70E0      		ldi r23,hi8(.LC0)
+ 156 0124 CE01      		movw r24,r28
+ 157 0126 4396      		adiw r24,19
+ 158 0128 0E94 0000 		call strcpy
+ 159 012c 81E0      		ldi r24,lo8(1)
+ 160 012e 0E94 0000 		call LcdBackLight
+ 161 0132 84E7      		ldi r24,lo8(116)
+ 162 0134 0E94 0000 		call LcdChar
+ 163               	.L23:
+ 164 0138 0E94 0000 		call KbGetKey
+ 165 013c 8930      		cpi r24,lo8(9)
+ 166 013e 01F4      		brne .L9
+ 167 0140 81E0      		ldi r24,lo8(1)
+ 168 0142 00C0      		rjmp .L22
+ 169               	.L9:
+GAS LISTING C:\Users\aares\AppData\Local\Temp/ccpMeGan.s 			page 4
+
+
+ 170 0144 8730      		cpi r24,lo8(7)
+ 171 0146 01F4      		brne .L11
+ 172 0148 80E0      		ldi r24,lo8(0)
+ 173               	.L22:
+ 174 014a 0E94 0000 		call LcdBackLight
+ 175 014e 00C0      		rjmp .L23
+ 176               	.L11:
+ 177 0150 8630      		cpi r24,lo8(6)
+ 178 0152 01F4      		brne .L23
+ 179 0154 00E0      		ldi r16,lo8(0)
+ 180 0156 10E0      		ldi r17,hi8(0)
+ 181 0158 00C0      		rjmp .L14
+ 182               	.L15:
+ 183 015a A00F      		add r26,r16
+ 184 015c B11F      		adc r27,r17
+ 185 015e 8C91      		ld r24,X
+ 186 0160 0E94 0000 		call LcdChar
+ 187 0164 0F5F      		subi r16,lo8(-(1))
+ 188 0166 1F4F      		sbci r17,hi8(-(1))
+ 189               	.L14:
+ 190 0168 DE01      		movw r26,r28
+ 191 016a 5396      		adiw r26,19
+ 192 016c FD01      		movw r30,r26
+ 193 016e 0190      		ld __tmp_reg__,Z+
+ 194 0170 0020      		tst __tmp_reg__
+ 195 0172 01F4      		brne .-6
+ 196 0174 3197      		sbiw r30,1
+ 197 0176 EA1B      		sub r30,r26
+ 198 0178 FB0B      		sbc r31,r27
+ 199 017a 0E17      		cp r16,r30
+ 200 017c 1F07      		cpc r17,r31
+ 201 017e 00F0      		brlo .L15
+ 202 0180 00C0      		rjmp .L23
+ 203               	/* epilogue: frame size=1018 */
+ 204               	/* epilogue: noreturn */
+ 205               	/* epilogue end (size=0) */
+ 206               	/* function NutAppMain size 165 (152) */
+ 207               		.size	NutAppMain, .-NutAppMain
+ 208               		.type	SysMainBeatInterrupt, @function
+ 209               	SysMainBeatInterrupt:
+ 210               	/* prologue: frame size=0 */
+ 211               	/* prologue end (size=0) */
+ 212 0182 0E94 0000 		call KbScan
+ 213 0186 0E94 0000 		call CardCheckCard
+ 214               	/* epilogue: frame size=0 */
+ 215 018a 0895      		ret
+ 216               	/* epilogue end (size=1) */
+ 217               	/* function SysMainBeatInterrupt size 5 (4) */
+ 218               		.size	SysMainBeatInterrupt, .-SysMainBeatInterrupt
+ 219               		.section	.progmem.data,"a",@progbits
+ 220               		.type	__c.2552, @object
+ 221               		.size	__c.2552, 26
+ 222               	__c.2552:
+ 223 0000 5254 4320 		.string	"RTC time [%02d:%02d:%02d]"
+ 223      7469 6D65 
+ 223      205B 2530 
+ 223      3264 3A25 
+GAS LISTING C:\Users\aares\AppData\Local\Temp/ccpMeGan.s 			page 5
+
+
+ 223      3032 643A 
+ 224               		.type	__c.2550, @object
+ 225               		.size	__c.2550, 12
+ 226               	__c.2550:
+ 227 001a 4865 6C6C 		.string	"Hello World"
+ 227      6F20 576F 
+ 227      726C 6400 
+ 228               	/* File "main.c": code  199 = 0x00c7 ( 184), prologues  13, epilogues   2 */
+GAS LISTING C:\Users\aares\AppData\Local\Temp/ccpMeGan.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:3      *ABS*:0000003f __SREG__
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:4      *ABS*:0000003e __SP_H__
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:5      *ABS*:0000003d __SP_L__
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:13     .text:00000000 SysInitIO
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:55     .text:0000003a NutAppMain
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:226    .progmem.data:0000001a __c.2550
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:222    .progmem.data:00000000 __c.2552
+C:\Users\aares\AppData\Local\Temp/ccpMeGan.s:209    .text:00000182 SysMainBeatInterrupt
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+WatchDogDisable
+NutDelay
+SPIinit
+LedInit
+LcdLowLevelInit
+Uart0DriverInit
+Uart0DriverStart
+LogInit
+LogMsg_P
+CardInit
+X12Init
+X12RtcGetClock
+At45dbInit
+RcInit
+KbInit
+sig_OVERFLOW0
+NutRegisterIrqHandler
+NutThreadSetPriority
+LedControl
+LcdBackLight
+strcpy
+LcdChar
+KbGetKey
+KbScan
+CardCheckCard
