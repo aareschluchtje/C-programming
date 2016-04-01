@@ -513,7 +513,7 @@ int VsPlayerKick(void)
 //        LogMsg_P(LOG_DEBUG,PSTR("Kick: CLOCKF = [0x%02X]"),VsRegRead(VS_CLOCKF_REG));
 //        LogMsg_P(LOG_DEBUG,PSTR("Kick: CLOCKF = [0x%02X]"),VsRegRead(VS_CLOCKF_REG));
 
-        VsLoadProgramCode();
+        //VsLoadProgramCode();
         vs_status = VS_STATUS_RUNNING;
         VsPlayerFeed(NULL);
         VsPlayerInterrupts(1);

@@ -12,9 +12,9 @@
  *  COPYRIGHT (C) STREAMIT BV 2010
  *  \date 19 december 2003
  */
- 
- 
- 
+
+
+
 
 #define LOG_MODULE  LOG_MAIN_MODULE
 
@@ -41,6 +41,7 @@
 #include "watchdog.h"
 #include "flash.h"
 #include "spidrv.h"
+#include "shoutcast.h"
 
 #include <time.h>
 #include "rtc.h"
@@ -77,7 +78,7 @@ static void SysControlMainBeat(u_char);
 /*-------------------------------------------------------------------------*/
 
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 /*!
  * \brief ISR MainBeat Timer Interrupt (Timer 2 for Mega128, Timer 0 for Mega256).
  *
@@ -88,7 +89,7 @@ static void SysControlMainBeat(u_char);
  *
  * \param *p not used (might be used to pass parms from the ISR)
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 static void SysMainBeatInterrupt(void *p)
 {
 
@@ -100,7 +101,7 @@ static void SysMainBeatInterrupt(void *p)
 }
 
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 /*!
  * \brief Initialise Digital IO
  *  init inputs to '0', outputs to '1' (DDRxn='0' or '1')
@@ -108,7 +109,7 @@ static void SysMainBeatInterrupt(void *p)
  *  Pull-ups are enabled when the pin is set to input (DDRxn='0') and then a '1'
  *  is written to the pin (PORTxn='1')
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 void SysInitIO(void)
 {
     /*
@@ -165,12 +166,12 @@ void SysInitIO(void)
     outp(0x18, DDRG);
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 /*!
  * \brief Starts or stops the 4.44 msec mainbeat of the system
  * \param OnOff indicates if the mainbeat needs to start or to stop
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 static void SysControlMainBeat(u_char OnOff)
 {
     int nError = 0;
@@ -190,7 +191,7 @@ static void SysControlMainBeat(u_char OnOff)
     }
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 /*!
  * \brief Main entry of the SIR firmware
  *
@@ -201,19 +202,20 @@ static void SysControlMainBeat(u_char OnOff)
  *
  * \return \b never returns
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ */
 int main(void)
 {
-    int i;
-	/* 
-	 * Kroeske: time struct uit nut/os time.h (http://www.ethernut.de/api/time_8h-source.html)
-	 *
-	 */
-	tm gmt;
-	/*
-	 * Kroeske: Ook kan 'struct _tm gmt' Zie bovenstaande link
-	 */
-	
+    int t = 0;
+
+    /*
+     * Kroeske: time struct uit nut/os time.h (http://www.ethernut.de/api/time_8h-source.html)
+     *
+     */
+    tm gmt;
+    /*
+     * Kroeske: Ook kan 'struct _tm gmt' Zie bovenstaande link
+     */
+
     /*
      *  First disable the watchdog
      */
@@ -222,27 +224,27 @@ int main(void)
     NutDelay(100);
 
     SysInitIO();
-	
-	SPIinit();
-    
-	LedInit();
-	
-	LcdLowLevelInit();
+
+    SPIinit();
+
+    LedInit();
+
+    LcdLowLevelInit();
 
     Uart0DriverInit();
     Uart0DriverStart();
-	LogInit();
-	LogMsg_P(LOG_INFO, PSTR("Hello World"));
+    LogInit();
+    LogMsg_P(LOG_INFO, PSTR("Hello World"));
 
     CardInit();
 
-	/*
-	 * Kroeske: sources in rtc.c en rtc.h
-	 */
+    /*
+     * Kroeske: sources in rtc.c en rtc.h
+     */
     X12Init();
     if (X12RtcGetClock(&gmt) == 0)
     {
-		LogMsg_P(LOG_INFO, PSTR("RTC time [%02d:%02d:%02d]"), gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
+        LogMsg_P(LOG_INFO, PSTR("RTC time [%02d:%02d:%02d]"), gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
     }
 
 
@@ -253,8 +255,8 @@ int main(void)
 
 
     RcInit();
-    
-	KbInit();
+
+    KbInit();
 
     SysControlMainBeat(ON);             // enable 4.4 msecs hartbeat interrupt
 
@@ -263,65 +265,38 @@ int main(void)
      */
     NutThreadSetPriority(1);
 
-	/* Enable global interrupts */
-	sei();
-/**
+    /* Enable global interrupts */
+    sei();
+
+    /* Init network adapter */
+    //if( OK != initInet() )
+    //{
+    //    LogMsg_P(LOG_ERR, PSTR("initInet() = NOK, NO network!"));
+    //}
+
+    //if( OK == connectToStream() )
+    //{
+    //    playStream();
+    // }
+
+
     for (;;)
     {
         NutSleep(100);
-		if( !((t++)%15) )
-		{
-			LogMsg_P(LOG_INFO, PSTR("Yes!, I'm alive ... [%d]"),t);
-			
-			LedControl(LED_TOGGLE);
-		
-			if( x )
-			{
-				LcdBackLight(LCD_BACKLIGHT_ON);
-				x = 0;
-			}
-			else
-			{
-				LcdBackLight(LCD_BACKLIGHT_OFF);
-				x = 1;
-			}
-		}
-		
-        WatchDogRestart();
-    }
-**/
-    LedControl(LED_ON);
-    LcdBackLight(LCD_BACKLIGHT_OFF);
-
-    char string[1000];
-    strcpy(string, "RADIO TEST");
-    LcdBackLight(LCD_BACKLIGHT_ON);
-    LcdChar('test');
-
-    for(;;){
-        u_char x = KbGetKey();
-        if(x == KEY_OK){
-            LcdBackLight(LCD_BACKLIGHT_ON);
-            //NutSleep(3000);                   // dit weer terug zetten als je opdracht 1 wil tonen.
-        }
-
-        if(x == KEY_ESC){                       // dit uit commenten als je opdracht 1 wil tonen.
-            LcdBackLight(LCD_BACKLIGHT_OFF);    // ^
-        }                                       // ^
-
-        if(x == KEY_ALT){
-            for(i = 0; i < strlen(string); i++) {
-                LcdChar(string[i]);
-            }
-        }
-
-        if(x == KEY_POWER){
+        if( !((t++)%15) )
+        {
+            LedControl(LED_TOGGLE);
+            handleMenu();
+            WatchDogRestart();
         }
     }
 
-    return(0);      // never reached, but 'main()' returns a non-void, so.....
+    stopStream();
+
+    return(0);
+
+    // never reached, but 'main()' returns a non-void, so.....
 }
 /* ---------- end of module ------------------------------------------------ */
 
 /*@}*/
-

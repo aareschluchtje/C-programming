@@ -53,9 +53,11 @@ extern void LcdChar(char);
 extern void LcdBackLight(u_char);
 extern void LcdInit(void);
 extern void LcdLowLevelInit(void);
+static void LcdWriteByte(u_char CtrlState, u_char LcdByte);
+extern void LcdClear(void);
 
 #endif /* _Display_H */
-/*  ออออ  End Of File  ออออออออ ออออออออออออออออออออออออออออออออออออออออออออ */
+/*  ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ  End Of File  ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 
 
 
