@@ -5,22 +5,22 @@
 int getch(void);
 void ungetch(int);
 
-//int main(void)
-//{
-//	int n, s, array[SIZE], getint(int *);
-//
-//	for (n = 0; n<SIZE && getint(&array[n]) != EOF; n++) {
-//		/* For debug purposes */
-//		printf("storing in n = %d, getint %d\n", n, array[n]);
-//	}
-//
-//	printf("storing in n = %d, getint %d\n", n, array[n]);
-//
-//	for (s = 0; s <= n; s++)
-//		printf("%d", array[s]);
-//
-//	return 0;
-//}
+/*int main(void)
+{
+	int n, s, array[SIZE], getint(int *);
+
+	for (n = 0; n<SIZE && getint(&array[n]) != EOF; n++) {
+		/* For debug purposes #1#
+		printf("storing in n = %d, getint %d\n", n, array[n]);
+	}
+
+	printf("storing in n = %d, getint %d\n", n, array[n]);
+
+	for (s = 0; s <= n; s++)
+		printf("%d", array[s]);
+
+	return 0;
+}*/
 
 int getint(int *pn)
 {

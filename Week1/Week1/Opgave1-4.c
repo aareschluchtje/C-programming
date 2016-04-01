@@ -1,5 +1,5 @@
 #include <stdio.h>
-	void main()
+	/*void main()
 	{
 		float fahr, celsius;
 		int laagste, hoogste, interval;
@@ -16,5 +16,6 @@
 			printf("%3.0f %6.1f\n", celsius, fahr);
 			celsius = celsius + interval;
 		}
+		getchar();
 
-	}
+	}*/
