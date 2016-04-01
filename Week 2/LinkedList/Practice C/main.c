@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "Linkedlist.h"
+#include <stdlib.h>
+#include <math.h>
 
 char * toArray(int number);
 
@@ -7,25 +9,28 @@ int main()
 {
 	printf(toArray(13413));
 	
-	//int idx;
+	int idx;
 
-	//init();
+	init();
 
-	//for (idx = 0; idx < 10; idx++)
-	//{
-	//	add(idx);
-	//}
-	////remove(4);
-	////clear();
-	////printf("Element in de list : %d \n", excist(4));
-	////printf("Count linklist: %d \n", nrItems());
-	////printf("original:\n");
-	//show();
-	//deepCopy();
-	////printf("copy:\n");
-	//showCopy();
-	//getchar();
-	//return 1;
+	for (idx = 0; idx < 10; idx++)
+	{
+		add(idx);
+	}
+/*	printf("Remove opdracht :\n");
+	remove(4);
+	clear();
+	printf("Element in de list : %d \n", excist(4));
+	printf("Count linklist: %d \n", nrItems());
+	printf("original:\n");*/
+	printf("Show opdracht :\n");
+	show();
+	printf("Deepcopy opdracht :\n");
+	deepCopy();
+	printf("copy:\n");
+	showCopy();
+	getchar();
+	return 1;
 }
 
 char * toArray(int number)

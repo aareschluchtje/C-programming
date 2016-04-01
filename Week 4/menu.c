@@ -299,10 +299,34 @@ void lcdPrintfPos( LCD_LINE_ENUM line, unsigned char col, char *s )
  * 		
  *******************************************************************/
 {
+	lcdSetCursorPos( line, col );
 
 	while( *s != '\0' )
 	{
 		LcdChar( *s );
 		s++;
 	}
+}
+
+/*******************************************************************/
+void lcdSetCursorPos( LCD_LINE_ENUM line, unsigned char col )
+{
+	unsigned char ddram_addr = 0;
+
+	switch(line)
+	{
+		case LINE1:
+			ddram_addr = 0x00 + col;
+			break;
+		case LINE2:
+			ddram_addr = 0x40 + col;
+			break;
+		case LINE3:
+			ddram_addr = 0x14 + col;
+			break;
+		case LINE4:
+			ddram_addr = 0x54 + col;
+			break;
+	}
+	LcdWriteByte(WRITE_COMMAND,ddram_addr );
 }
