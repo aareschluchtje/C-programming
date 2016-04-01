@@ -18,6 +18,10 @@ typedef enum {
     DISPLAY_Twitch,
     DISPLAY_Twitter,
     DISPLAY_StreamInfo,
+    DISPLAY_MainMenu,
+    DISPLAY_SettingsMenu,
+    DISPLAY_Play,
+    DISPLAY_Song
 } viewDisplays;
 
 long timerStruct(struct _tm s);

@@ -10,7 +10,7 @@
 #include <sys/thread.h>
 #include <sys/timer.h>
 
-#include "displayHandler.h"
+#include "menuHandler.h"
 #include "vs10xx.h"
 
 #define OK              1

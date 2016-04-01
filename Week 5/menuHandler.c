@@ -6,7 +6,7 @@
 #include <time.h>
 
 #include "display.h"
-#include "displayHandler.h"
+#include "menuHandler.h"
 #include "ntp.h"
 #include "log.h"
 #include "mp3stream.h"
@@ -15,6 +15,9 @@
 #include "network.h"
 #include "twitch.h"
 #include "Twitter.h"
+#include "mainMenu.h"
+#include "settings.h"
+#include "play.h"
 
 struct _tm lastDisplayTime;
 viewDisplays currentViewDisplay;
@@ -49,6 +52,14 @@ void refreshScreen(){
         displayTwitter(TweetFeed.tweet);
     } else if(currentViewDisplay == DISPLAY_StreamInfo){
         displayStreamInfo();
+    } else if(currentViewDisplay == DISPLAY_MainMenu){
+        showMenu();
+    } else if(currentViewDisplay == DISPLAY_SettingsMenu){
+        showSettingsMenu();
+    } else if(currentViewDisplay == DISPLAY_Play){
+        showPlayMenu();
+    } else if(currentViewDisplay == DISPLAY_Song){
+        showSong();
     }
 }
 

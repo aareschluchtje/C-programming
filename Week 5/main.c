@@ -34,7 +34,7 @@
 #include "alarm.h"
 #include "contentparser.h"
 #include "display.h"
-#include "displayHandler.h"
+#include "menuHandler.h"
 #include "gotosleep.h"
 #include "keyboard.h"
 #include "led.h"
@@ -50,6 +50,9 @@
 #include "uart0driver.h"
 #include "vs10xx.h"
 #include "watchdog.h"
+#include "mainMenu.h"
+#include "settings.h"
+#include "play.h"
 
 
 
@@ -343,39 +346,42 @@ int main(void)
     for (;;)
     {
         //Key detecten
-        if(KbGetKey() != KEY_UNDEFINED){
-            //Backlight aanzetten.
-            LcdBackLight(LCD_BACKLIGHT_ON);
-            if(getCurrentDisplay() == DISPLAY_Alarm){
-                if(KbGetKey() == KEY_01 || KbGetKey() == KEY_02 || KbGetKey() == KEY_03 || KbGetKey() == KEY_04 || KbGetKey() == KEY_05 || KbGetKey() == KEY_ALT){
-                    setSnooze(getRunningAlarmID());
-                    killPlayerThread();
-                    setCurrentDisplay(DISPLAY_DateTime, 2);
-                }else if(KbGetKey() == KEY_ESC){
-                    handleAlarm(getRunningAlarmID());
-                    killPlayerThread();
-                    setCurrentDisplay(DISPLAY_DateTime, 5);
-                }
-            }else{
-
-                if(KbGetKey() == KEY_DOWN){
-                    setCurrentDisplay(DISPLAY_Volume, 5);
-                    volumeDown();
-                }else if(KbGetKey() == KEY_UP){
-                    setCurrentDisplay(DISPLAY_Volume, 5);
-                    volumeUp();
-                }else if(KbGetKey() == KEY_LEFT){
-                    setCurrentDisplay(DISPLAY_Twitter,20);
-                }else{
-                    setCurrentDisplay(DISPLAY_DateTime, 5);
-                }
-                if(KbGetKey() == KEY_01){
-                    setSleep();
-                }
-                if(KbGetKey() == KEY_02){
-                    changeChanel();
-                }
+        if(KbGetKey() == KEY_01){
+            setCurrentDisplay(DISPLAY_DateTime, 5);
+        }
+        else if(KbGetKey() == KEY_OK)
+        {
+            if(getCurrentDisplay() == DISPLAY_MainMenu)
+            {
+                clickOk();
             }
+            else if(getCurrentDisplay() == DISPLAY_SettingsMenu)
+            {
+                clickOkSettings();
+            }
+            else if(getCurrentDisplay() == DISPLAY_Play || getCurrentDisplay() == DISPLAY_Song)
+            {
+                clickOkPlay();
+            }
+            else
+            {
+                setCurrentDisplay(DISPLAY_MainMenu, 10000);
+            }
+        }
+        else if(KbGetKey() == KEY_LEFT)
+        {
+            switchLeft();
+        }
+        else if(KbGetKey() == KEY_RIGHT)
+        {
+            switchItem();
+        }
+        else if(KbGetKey() == KEY_DOWN){
+            setCurrentDisplay(DISPLAY_Volume, 5);
+            volumeDown();
+        }else if(KbGetKey() == KEY_UP) {
+            setCurrentDisplay(DISPLAY_Volume, 5);
+            volumeUp();
         }
         refreshScreen();
         WatchDogRestart();

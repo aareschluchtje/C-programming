@@ -8,7 +8,7 @@
 #include "mp3stream.h"
 #include "rtc.h"
 #include "alarm.h"
-#include "displayHandler.h"
+#include "menuHandler.h"
 #include "vs10xx.h"
 #include "twitch.h"
 #include "Twitter.h"

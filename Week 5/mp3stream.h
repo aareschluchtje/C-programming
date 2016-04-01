@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <string.h>
 
+bool stream_is_playing;
+
 bool play(void);
 bool connectToStream(char* ipaddr, u_short port, char *radioUrl);
 void killPlayerThread(void);
