@@ -292,7 +292,7 @@ THREAD(Mp3Player, args)
 
 void stopMp3PlayerThread(void)
 {
-    printf("Signal to stop the stream recieved\n.");
+    printf("Signal to stop the stream received\n.");
     stream_connected = false;
     stream_isplaying = false;
     VsPlayerStop();

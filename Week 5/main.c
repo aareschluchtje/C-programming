@@ -21,11 +21,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <io.h>
 
 #include <sys/thread.h>
 #include <sys/timer.h>
 #include <sys/version.h>
 #include <dev/irqreg.h>
+#include <dev/nvmem.h>
+#include <dev/board.h>
 
 // Note: Please keep the includes in alphabetical order!    - Jordy
 #include "alarm.h"
@@ -320,7 +323,21 @@ int main(void)
     setCurrentDisplay(DISPLAY_DateTime, 5);
 
     X12RtcGetClock(&timeCheck);
-
+    int hours;
+    int mins;
+    int secs;
+    if(!NutNvMemLoad(100, &hours, sizeof(hours)))
+    {
+        printf("uren: %d", hours);
+    }
+    if(!NutNvMemLoad(105, &mins, sizeof(mins)))
+    {
+        printf(" minuten: %d", mins);
+    }
+    if(!NutNvMemLoad(110, &secs, sizeof(secs)))
+    {
+        printf(" seconden %d", secs);
+    }
     printf("Welcome to Saltyradio.\nI'm using mac address:  %s\n\n\n", getMacAdress());
 
     for (;;)

@@ -125,10 +125,13 @@ void NtpWriteTimeToEeprom(tm time_struct){
 
     eeprom_tm_struct.len = sizeof(eeprom_tm_struct);
     eeprom_tm_struct.tm_struct = time_struct;
-
-    int success = NutNvMemSave(256, &eeprom_tm_struct, sizeof(eeprom_tm_struct));
-    if (success == 0){ puts("NtpWriteTimeToEeprom: Time succesfully written to eeprom \n"); }
-
+    printf("uren: %d, minuten: %d, seconden: %d\n", time_struct.tm_hour, time_struct.tm_min, time_struct.tm_sec);
+    int success = NutNvMemSave(100, &time_struct.tm_hour, sizeof(time_struct.tm_hour));
+    if (success == 0){ puts("NtpWriteTimeToEeprom: hours succesfully written to eeprom \n"); }
+    success = NutNvMemSave(105, &time_struct.tm_min, sizeof(time_struct.tm_min));
+    if (success == 0){ puts("NtpWriteTimeToEeprom: mins succesfully written to eeprom \n"); }
+    success = NutNvMemSave(110, &time_struct.tm_sec, sizeof(time_struct.tm_sec));
+    if (success == 0){ puts("NtpWriteTimeToEeprom: secs succesfully written to eeprom \n"); }
     NutDelay(100);
 }
 
