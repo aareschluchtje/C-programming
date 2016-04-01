@@ -26,7 +26,7 @@
 #include "portio.h"
 #include "display.h"
 #include "log.h"
-
+#include <time.h>
 /*-------------------------------------------------------------------------*/
 /* local defines                                                           */
 /*-------------------------------------------------------------------------*/
@@ -42,21 +42,6 @@ static void LcdWriteByte(u_char, u_char);
 static void LcdWriteNibble(u_char, u_char);
 static void LcdWaitBusy(void);
 
-/*!
- * \addtogroup Display
- */
-
-/*@{*/
-
-/*-------------------------------------------------------------------------*/
-/*                         start of code                                   */
-/*-------------------------------------------------------------------------*/
-
-/* ����������������������������������������������������������������������� */
-/*!
- * \brief control backlight
- */
-/* ����������������������������������������������������������������������� */
 void LcdBackLight(u_char Mode)
 {
     if (Mode==LCD_BACKLIGHT_ON)
@@ -70,15 +55,6 @@ void LcdBackLight(u_char Mode)
     }
 }
 
-/* ����������������������������������������������������������������������� */
-/*!
- * \brief Write a single character on the LCD
- *
- * Writes a single character on the LCD on the current cursor position
- *
- * \param LcdChar character to write
- */
-/* ����������������������������������������������������������������������� */
 void LcdChar(char MyChar)
 {
     LcdWriteByte(WRITE_DATA, MyChar);
@@ -217,9 +193,50 @@ static void LcdWaitBusy()
     cbi (LCD_RS_PORT, LCD_RS);
     cbi (LCD_RW_PORT, LCD_RW);              // we are going to write
 }
-
-void LcdClear()
+//clears the Lcd screen
+void ClearLcd()
 {
-    LcdWriteByte(WRITE_COMMAND, 0x01);
+	LcdWriteByte(WRITE_COMMAND, 0x01);
 }
+
+void LcdArrayLineOne(char *data, int size)
+{
+	int i;
+	LcdWriteByte(WRITE_COMMAND, 0x80);
+	NutSleep(2);
+	for(i = 0; i < size; i = i + 1){
+		LcdChar(data[i]);
+	}
+}
+
+void LcdArrayLineTwo(char *data, int size){
+	int i;
+	LcdWriteByte(WRITE_COMMAND, 0xC0);
+	NutSleep(2);
+	for(i = 0; i < size; i = i + 1){
+		LcdChar(data[i]);
+	}
+}
+char getLoop(char *text,int offset)
+{
+    return text[offset % strlen(text)];
+}
+
+void setXCursorPos(int leftRight,int count)
+{
+    int i;
+    for ( i = 0; i <count ; ++i)
+    {
+        switch(leftRight)
+        {
+            case 0: LcdWriteByte(1,0x18);		// shift rechts
+                break;
+            case 1: LcdWriteByte(1,0x1c);		// shift links
+                break;
+        }
+    }
+}
+
+/* ---------- end of module ------------------------------------------------ */
+	
 /*@}*/

@@ -352,7 +352,7 @@ int X12RtcGetStatus(u_long *sflgs)
  */
 int X12RtcClearStatus(u_long sflgs)
 {
-    rtc_status &= ~sflgs;
+    rtc_status &= sflgs;
 
     return(0);
 }
@@ -466,6 +466,12 @@ int X12Init(void)
         rc = X12RtcGetStatus(&tmp);
     }
     return (rc);
+}
+
+struct _tm GetRTCTime(){
+	struct _tm gmt;
+	X12RtcGetClock(&gmt);
+	return gmt;
 }
 
 

@@ -14,6 +14,7 @@
 
 //#pragma text:appcode
 
+#include "log.h"
 #include "keyboard.h"
 #include "portio.h"
 #include "system.h"
@@ -155,8 +156,7 @@ void KbScan()
     KeyFound |= (KeyNibble1 & 0x00F0);          // b7..b4 in 'KeyNibble1' to b7...b4  in 'KeyFound' -- do nothing
     KeyFound |= ((KeyNibble2<<4) & 0x0F00);     // b7..b4 in 'KeyNibble2' to b11..b8  in 'KeyFound' << shift 4 left
     KeyFound |= ((KeyNibble3<<8) & 0xF000);     // b7..b4 in 'KeyNibble3' to b15..b12 in 'KeyFound' << shift 8 left
-
-
+    KbInjectKey(KbRemapKey(KeyFound));
 #endif  // USE_JTAG
 
 }
@@ -190,19 +190,6 @@ static u_char KbRemapKey(u_short LongKey)
 
         default:                return(KEY_UNDEFINED);
     }
-}
-
-/* ����������������������������������������������������������������������� */
-/*!
- * \brief Return the repeating property for this key
- *
- * \return 'TRUE' in case the key was repeating, 'FALSE' if not
- *
- */
-/* ����������������������������������������������������������������������� */
-static u_char KbKeyIsRepeating(u_short Key)
-{
-    return(KeyRepeatArray[KbRemapKey(Key)]==KEY_REPEAT);
 }
 
 /* ����������������������������������������������������������������������� */

@@ -90,13 +90,14 @@
 /* export global routines (interface)                                      */
 /*-------------------------------------------------------------------------*/
 void    KbInit(void);
-void    KbScan(void);
+void  KbScan(void);
+int 	CheckKey(void);
 int     KbWaitForKeyEvent(u_long);
 u_char  KbGetKey(void);
 void    KbSetKeyRepeating(u_char, u_char);
 void    KbInjectKey(u_char VirtualKey);
 
-/*  ออออ  End Of File  ออออออออ ออออออออออออออออออออออออออออออออออออออออออออ */
+/*  ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ  End Of File  ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 
 
 
