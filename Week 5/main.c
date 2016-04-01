@@ -9,12 +9,9 @@
  */
 
 /*! \file
- *  COPYRIGHT (C) STREAMIT BV 2010
- *  \date 19 december 2003
+ *  COPYRIGHT (C) SaltyRadio 2016
+ *  \date 20-02-2016
  */
- 
- 
- 
 
 #define LOG_MODULE  LOG_MAIN_MODULE
 
@@ -23,36 +20,34 @@
 /*--------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include <sys/thread.h>
 #include <sys/timer.h>
 #include <sys/version.h>
 #include <dev/irqreg.h>
 
-#include "system.h"
-#include "portio.h"
+// Note: Please keep the includes in alphabetical order!    - Jordy
+#include "alarm.h"
+#include "contentparser.h"
 #include "display.h"
-#include "remcon.h"
+#include "displayHandler.h"
+#include "gotosleep.h"
 #include "keyboard.h"
 #include "led.h"
 #include "log.h"
-#include "uart0driver.h"
-#include "mmc.h"
-#include "watchdog.h"
-#include "flash.h"
-#include "spidrv.h"
-
-#include <time.h>
+#include "mp3stream.h"
+#include "network.h"
+#include "ntp.h"
+#include "portio.h"
 #include "rtc.h"
+#include "spidrv.h"
+#include "system.h"
+#include "typedefs.h"
+#include "uart0driver.h"
+#include "vs10xx.h"
+#include "watchdog.h"
 
-
-/*-------------------------------------------------------------------------*/
-/* global variable definitions                                             */
-/*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*/
-/* local variable definitions                                              */
-/*-------------------------------------------------------------------------*/
 
 
 /*-------------------------------------------------------------------------*/
@@ -76,8 +71,13 @@ static void SysControlMainBeat(u_char);
 /*                         start of code                                   */
 /*-------------------------------------------------------------------------*/
 
+/*-------------------------------------------------------------------------*/
+/* global variable definitions                                             */
+/*-------------------------------------------------------------------------*/
+bool isAlarmSyncing = false;
+bool initialized = false;
+bool running = false;
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 /*!
  * \brief ISR MainBeat Timer Interrupt (Timer 2 for Mega128, Timer 0 for Mega256).
  *
@@ -88,19 +88,11 @@ static void SysControlMainBeat(u_char);
  *
  * \param *p not used (might be used to pass parms from the ISR)
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 static void SysMainBeatInterrupt(void *p)
 {
-
-    /*
-     *  scan for valid keys AND check if a MMCard is inserted or removed
-     */
     KbScan();
-    CardCheckCard();
 }
 
-
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 /*!
  * \brief Initialise Digital IO
  *  init inputs to '0', outputs to '1' (DDRxn='0' or '1')
@@ -108,7 +100,6 @@ static void SysMainBeatInterrupt(void *p)
  *  Pull-ups are enabled when the pin is set to input (DDRxn='0') and then a '1'
  *  is written to the pin (PORTxn='1')
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 void SysInitIO(void)
 {
     /*
@@ -165,12 +156,10 @@ void SysInitIO(void)
     outp(0x18, DDRG);
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 /*!
  * \brief Starts or stops the 4.44 msec mainbeat of the system
  * \param OnOff indicates if the mainbeat needs to start or to stop
  */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 static void SysControlMainBeat(u_char OnOff)
 {
     int nError = 0;
@@ -190,73 +179,134 @@ static void SysControlMainBeat(u_char OnOff)
     }
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-/*!
- * \brief Main entry of the SIR firmware
- *
- * All the initialisations before entering the for(;;) loop are done BEFORE
- * the first key is ever pressed. So when entering the Setup (POWER + VOLMIN) some
- * initialisatons need to be done again when leaving the Setup because new values
- * might be current now
- *
- * \return \b never returns
- */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/*-------------------------------------------------------------------------*/
+/* local variable definitions                                              */
+/*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
+/* Thread init                                                             */
+/*-------------------------------------------------------------------------*/
+THREAD(StartupInit, arg)
+{
+    NutThreadSetPriority(5);
+
+    NetworkInit();
+
+    initialized = true;
+
+    NutThreadExit();
+}
+
+THREAD(AlarmCheck, arg)
+{
+    NutThreadSetPriority(100);
+    for(;;){
+        if(checkAlarms() == 1){
+          setCurrentDisplay(DISPLAY_Alarm, 1000);
+        }
+
+
+        NutSleep(1000);
+    }
+
+}
+
+THREAD(AlarmSync, arg)
+{
+    NutThreadSetPriority(50);
+
+    while(initialized == false){
+        NutSleep(1000);
+    }
+    int dayCounter = 0;
+    int counter = 0;
+    while(!NtpSync() && counter < 10)
+    {
+        NutSleep(1000);
+        counter++;
+    }
+    counter = 0;
+    for(;;)
+    {
+
+        if((initialized == true) && (hasNetworkConnection() == true))
+        {
+            checkSleep();
+            isAlarmSyncing = true;
+            char url[49];
+            sprintf(url, "/getAlarmen.php?radiomac=%s&tz=%d", getMacAdress(), getTimeZone());
+            httpGet(url, parseAlarmJson);
+            isAlarmSyncing = false;
+
+            char url2[43];
+            sprintf(url2, "/getTwitch.php?radiomac=%s", getMacAdress());
+            httpGet(url2, parseTwitch);
+            char url3[43];
+            sprintf(url3,"/getTwitter.php?radiomac=%s", getMacAdress());
+            httpGet(url3,TwitterParser);
+
+            //Command que (Telegram) sync
+            sprintf(url, "%s%s", "/getCommands.php?radiomac=", getMacAdress());
+            httpGet(url, parseCommandQue);
+        }
+        while(dayCounter > 28800 && (hasNetworkConnection() == true))
+        {
+            while(!NtpSync() && counter < 10)
+            {
+                NutSleep(1000);
+                counter++;
+            }
+            dayCounter = 28800;
+            counter = 0;
+        }
+        dayCounter++;
+        NutSleep(3000);
+    }
+    NutThreadExit();
+}
+
+/*-------------------------------------------------------------------------*/
+/* Global functions                                                        */
+/*-------------------------------------------------------------------------*/
+
+int timer(time_t start){
+    time_t diff = time(0) - start;
+    return diff;
+}
+
 int main(void)
 {
-    int i;
-	/* 
-	 * Kroeske: time struct uit nut/os time.h (http://www.ethernut.de/api/time_8h-source.html)
-	 *
-	 */
-	tm gmt;
-	/*
-	 * Kroeske: Ook kan 'struct _tm gmt' Zie bovenstaande link
-	 */
-	
-    /*
-     *  First disable the watchdog
-     */
+    struct _tm timeCheck;
+
     WatchDogDisable();
 
     NutDelay(100);
 
     SysInitIO();
-	
+
 	SPIinit();
-    
+
 	LedInit();
-	
+
 	LcdLowLevelInit();
 
     Uart0DriverInit();
     Uart0DriverStart();
 	LogInit();
-	LogMsg_P(LOG_INFO, PSTR("Hello World"));
 
-    CardInit();
-
-	/*
-	 * Kroeske: sources in rtc.c en rtc.h
-	 */
     X12Init();
-    if (X12RtcGetClock(&gmt) == 0)
-    {
-		LogMsg_P(LOG_INFO, PSTR("RTC time [%02d:%02d:%02d]"), gmt.tm_hour, gmt.tm_min, gmt.tm_sec );
-    }
 
+    VsPlayerInit();
 
-    if (At45dbInit()==AT45DB041B)
-    {
-        // ......
-    }
+    NtpInit();
 
+    NutThreadCreate("BackgroundThread", StartupInit, NULL, 1024);
+    NutThreadCreate("BackgroundThread", AlarmSync, NULL, 2500);
+    NutThreadCreate("BackgroundThread", AlarmCheck, NULL, 256);
 
-    RcInit();
-    
 	KbInit();
 
-    SysControlMainBeat(ON);             // enable 4.4 msecs hartbeat interrupt
+    SysControlMainBeat(ON);             // enable 4.4 msecs heartbeat interrupt
 
     /*
      * Increase our priority so we can feed the watchdog.
@@ -265,63 +315,54 @@ int main(void)
 
 	/* Enable global interrupts */
 	sei();
-/**
+	
+	LcdBackLight(LCD_BACKLIGHT_ON);
+    setCurrentDisplay(DISPLAY_DateTime, 5);
+
+    X12RtcGetClock(&timeCheck);
+
+    printf("Welcome to Saltyradio.\nI'm using mac address:  %s\n\n\n", getMacAdress());
+
     for (;;)
     {
-        NutSleep(100);
-		if( !((t++)%15) )
-		{
-			LogMsg_P(LOG_INFO, PSTR("Yes!, I'm alive ... [%d]"),t);
-			
-			LedControl(LED_TOGGLE);
-		
-			if( x )
-			{
-				LcdBackLight(LCD_BACKLIGHT_ON);
-				x = 0;
-			}
-			else
-			{
-				LcdBackLight(LCD_BACKLIGHT_OFF);
-				x = 1;
-			}
-		}
-		
-        WatchDogRestart();
-    }
-**/
-    LedControl(LED_ON);
-    LcdBackLight(LCD_BACKLIGHT_OFF);
-
-    char string[1000];
-    strcpy(string, "RADIO TEST");
-    LcdBackLight(LCD_BACKLIGHT_ON);
-    LcdChar('test');
-
-    for(;;){
-        u_char x = KbGetKey();
-        if(x == KEY_OK){
+        //Key detecten
+        if(KbGetKey() != KEY_UNDEFINED){
+            //Backlight aanzetten.
             LcdBackLight(LCD_BACKLIGHT_ON);
-            //NutSleep(3000);                   // dit weer terug zetten als je opdracht 1 wil tonen.
-        }
+            if(getCurrentDisplay() == DISPLAY_Alarm){
+                if(KbGetKey() == KEY_01 || KbGetKey() == KEY_02 || KbGetKey() == KEY_03 || KbGetKey() == KEY_04 || KbGetKey() == KEY_05 || KbGetKey() == KEY_ALT){
+                    setSnooze(getRunningAlarmID());
+                    killPlayerThread();
+                    setCurrentDisplay(DISPLAY_DateTime, 2);
+                }else if(KbGetKey() == KEY_ESC){
+                    handleAlarm(getRunningAlarmID());
+                    killPlayerThread();
+                    setCurrentDisplay(DISPLAY_DateTime, 5);
+                }
+            }else{
 
-        if(x == KEY_ESC){                       // dit uit commenten als je opdracht 1 wil tonen.
-            LcdBackLight(LCD_BACKLIGHT_OFF);    // ^
-        }                                       // ^
-
-        if(x == KEY_ALT){
-            for(i = 0; i < strlen(string); i++) {
-                LcdChar(string[i]);
+                if(KbGetKey() == KEY_DOWN){
+                    setCurrentDisplay(DISPLAY_Volume, 5);
+                    volumeDown();
+                }else if(KbGetKey() == KEY_UP){
+                    setCurrentDisplay(DISPLAY_Volume, 5);
+                    volumeUp();
+                }else if(KbGetKey() == KEY_LEFT){
+                    setCurrentDisplay(DISPLAY_Twitter,20);
+                }else{
+                    setCurrentDisplay(DISPLAY_DateTime, 5);
+                }
+                if(KbGetKey() == KEY_01){
+                    setSleep();
+                }
+                if(KbGetKey() == KEY_02){
+                    changeChanel();
+                }
             }
         }
-
-        if(x == KEY_POWER){
-        }
+        refreshScreen();
+        WatchDogRestart();
+        NutSleep(100);
     }
-
-    return(0);      // never reached, but 'main()' returns a non-void, so.....
+    return(0);
 }
-/* ---------- end of module ------------------------------------------------ */
-
-/*@}*/
-

@@ -1,0 +1,3 @@
+[submodule "InternetRadio-webserver"]
+	path = InternetRadio-webserver
+	url = https://github.com/jancoow/InternetRadio-webserver

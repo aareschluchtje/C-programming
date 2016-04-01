@@ -12,6 +12,22 @@
  * [PURPOSE]    global typedefs
  * ======================================================================== */
 
+/*
+ *  Copyright 20152016-TI2.3a6, 2016.
+ *
+ *  Project             : 20152016-TI2.3a6-Internet Radio
+ *  Module              : Type definitions
+ *  File name           : Typedefs.h
+ *  Revision            : 1.1
+ *  Creation Date       : 2016/03/04
+ *
+ *  Description         : Global type definitions for the SIR100/120
+ *                        firmware.
+ *
+ *  Changelog       1.1 : Add type definitions for TI2.3a6 software.
+ *                        - Add bool
+ */
+
 
 /*--------------------------------------------------------------------------*/
 /*  Include files                                                           */
@@ -29,6 +45,16 @@
 /*     Make sure that any modification made to this table are reflected by  */
 /*     the LcdErrorStirngs table! (an error is bad but showing the wrong    */
 /*     error is too much....) */
+
+// Additions based on version 1.1
+
+typedef enum {false, true} bool;
+
+
+
+
+
+
 typedef enum _TERRORCODE
 {
     OK = 0,                             /* All ok */

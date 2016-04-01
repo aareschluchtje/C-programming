@@ -56,8 +56,10 @@
 
 //#pragma text:appcode
 
+#include "log.h"
 #include "system.h"
 #include "uart0driver.h"
+#include "watchdog.h"
 
 
 //----------------------------------------------------------
@@ -83,6 +85,34 @@ static FILE *stream=NULL;
        // CommandHandler(stream);
     // }
 // }
+
+THREAD(Uart0KeyEvents, arg)
+{
+    //LogMsg_P(LOG_INFO, PSTR("UART-Thread Start"));
+
+    NutThreadSetPriority(200);  // low prio
+    for (;;)
+    {
+        char *result = "";
+        char rst[] = "reset\n";
+
+        if (stream==NULL)
+        {
+            //LogMsg_P(LOG_INFO, PSTR("Stream is NULL!"));
+            NutSleep(2000);           //Mhe
+            continue;
+        }
+
+        result = fgets(result, 16, stream);
+        short _reset_received = strcmp(rst, result);
+
+        if (_reset_received == 0){
+            LogMsg_P(LOG_INFO, PSTR(">>>>>> RESET COMMAND RECEIVED"));
+            //RESET SIR!
+            WatchDogStart(0);
+        }
+    }
+}
 
 //----------------------------------------------------------
 

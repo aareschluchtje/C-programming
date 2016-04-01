@@ -26,7 +26,7 @@
 #include "portio.h"
 #include "display.h"
 #include "log.h"
-
+#include <time.h>
 /*-------------------------------------------------------------------------*/
 /* local defines                                                           */
 /*-------------------------------------------------------------------------*/
@@ -42,21 +42,6 @@ static void LcdWriteByte(u_char, u_char);
 static void LcdWriteNibble(u_char, u_char);
 static void LcdWaitBusy(void);
 
-/*!
- * \addtogroup Display
- */
-
-/*@{*/
-
-/*-------------------------------------------------------------------------*/
-/*                         start of code                                   */
-/*-------------------------------------------------------------------------*/
-
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
-/*!
- * \brief control backlight
- */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
 void LcdBackLight(u_char Mode)
 {
     if (Mode==LCD_BACKLIGHT_ON)
@@ -70,22 +55,13 @@ void LcdBackLight(u_char Mode)
     }
 }
 
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
-/*!
- * \brief Write a single character on the LCD
- *
- * Writes a single character on the LCD on the current cursor position
- *
- * \param LcdChar character to write
- */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
 void LcdChar(char MyChar)
 {
     LcdWriteByte(WRITE_DATA, MyChar);
 }
 
 
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 /*!
  * \brief Low-level initialisation function of the LCD-controller
  *
@@ -94,7 +70,7 @@ void LcdChar(char MyChar)
  *           1 line dislay, 10 dots high characters
  *
  */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
  void LcdLowLevelInit()
 {
     u_char i;
@@ -127,7 +103,7 @@ void LcdChar(char MyChar)
 }
 
 
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 /*!
  * \brief Low-level routine to write a byte to LCD-controller
  *
@@ -139,7 +115,7 @@ void LcdChar(char MyChar)
  * \param LcdByte byte to write
  *
  */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 static void LcdWriteByte(u_char CtrlState, u_char LcdByte)
 {
     LcdWaitBusy();                      // see if the controller is ready to receive next byte
@@ -148,7 +124,7 @@ static void LcdWriteByte(u_char CtrlState, u_char LcdByte)
 
 }
 
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 /*!
  * \brief Low-level routine to write a nibble to LCD-controller
  *
@@ -160,7 +136,7 @@ static void LcdWriteByte(u_char CtrlState, u_char LcdByte)
  * \param LcdNibble nibble to write (upper 4 bits in this byte
  *
  */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 static void LcdWriteNibble(u_char CtrlState, u_char LcdNibble)
 {
     outp((inp(LCD_DATA_DDR) & 0x0F) | 0xF0, LCD_DATA_DDR);  // set data-port to output again
@@ -186,7 +162,7 @@ static void LcdWriteNibble(u_char CtrlState, u_char LcdNibble)
     outp((inp(LCD_DATA_PORT) & 0x0F) | 0xF0, LCD_DATA_PORT);  // enable pull-ups in data-port
 }
 
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 /*!
  * \brief Low-level routine to see if the controller is ready to receive
  *
@@ -194,7 +170,7 @@ static void LcdWriteNibble(u_char CtrlState, u_char LcdNibble)
  * has become '0'. If a '0' is detected on bit 7 the function returns.
  *
  */
-/* อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ */
+/* ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ */
 static void LcdWaitBusy()
 {
     u_char Busy = 1;
@@ -217,7 +193,50 @@ static void LcdWaitBusy()
     cbi (LCD_RS_PORT, LCD_RS);
     cbi (LCD_RW_PORT, LCD_RW);              // we are going to write
 }
+//clears the Lcd screen
+void ClearLcd()
+{
+	LcdWriteByte(WRITE_COMMAND, 0x01);
+}
+
+void LcdArrayLineOne(char *data, int size)
+{
+	int i;
+	LcdWriteByte(WRITE_COMMAND, 0x80);
+	NutSleep(2);
+	for(i = 0; i < size; i = i + 1){
+		LcdChar(data[i]);
+	}
+}
+
+void LcdArrayLineTwo(char *data, int size){
+	int i;
+	LcdWriteByte(WRITE_COMMAND, 0xC0);
+	NutSleep(2);
+	for(i = 0; i < size; i = i + 1){
+		LcdChar(data[i]);
+	}
+}
+char getLoop(char *text,int offset)
+{
+    return text[offset % strlen(text)];
+}
+
+void setXCursorPos(int leftRight,int count)
+{
+    int i;
+    for ( i = 0; i <count ; ++i)
+    {
+        switch(leftRight)
+        {
+            case 0: LcdWriteByte(1,0x18);		// shift rechts
+                break;
+            case 1: LcdWriteByte(1,0x1c);		// shift links
+                break;
+        }
+    }
+}
 
 /* ---------- end of module ------------------------------------------------ */
-
+	
 /*@}*/

@@ -81,6 +81,7 @@ typedef u_char TLogLevel;
 #define LOG_MENU_MODULE         0xD0
 #define LOG_MMC_MODULE          0xE0
 #define LOG_MMCDRV_MODULE       0xF0
+#define LOG_NTP_MODULE          0xF8
 #define LOG_PARSE_MODULE        0x08
 #define LOG_PLAYER_MODULE       0x18
 #define LOG_REMCON_MODULE       0x28

@@ -133,6 +133,7 @@ static PGM_P LogPrefixName_P(TLogLevel tLevel)
         case LOG_MENU_MODULE         :return(PSTR("ME: "));
         case LOG_MMC_MODULE          :return(PSTR("MM: "));
         case LOG_MMCDRV_MODULE       :return(PSTR("MD: "));
+        case LOG_NTP_MODULE          :return(PSTR("NT: "));
         case LOG_PARSE_MODULE        :return(PSTR("PA: "));
         case LOG_PLAYER_MODULE       :return(PSTR("PL: "));
         case LOG_REMCON_MODULE       :return(PSTR("RC: "));
